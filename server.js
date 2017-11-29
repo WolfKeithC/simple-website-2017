@@ -1,7 +1,7 @@
 var express = require('express')
   , logger = require('morgan')
   , app = express()
-  , template = require('jade').compileFile(__dirname + '/source/templates/homepage.jade')
+  
 
 app.use(logger('dev'))
 app.use(express.static(__dirname + '/static'))
@@ -12,7 +12,9 @@ app.get('/', function (req, res, next) {
     var page = url.parse(req.url).pathname;
     console.log(page);
 
-    var html = template({ title: 'Home' })
+    template = require('jade').compileFile(__dirname + '/source/templates/homepage.jade')
+
+    var html = template({ title: 'Home123' })
     res.send(html)
   } catch (e) {
     next(e)
@@ -26,9 +28,16 @@ app.get('/test', function (req, res, next) {
     var page = url.parse(req.url).pathname;
     var query = url.parse(req.url).query;
     var params = querystring.parse(query);
-    console.log(page);
+    //console.log(page);
     //var html = template({ title: 'Data' })
-    res.send("<html><body><h1>Hello World!</h1>" + params['firstName'] + "</body></html>")
+    //res.send("<html><body><h1>Hello World!</h1>" + params['firstName'] + "</body></html>")
+
+    template = require('jade').compileFile(__dirname + '/source/templates/test.jade')
+
+    var html = template({ title: 'Test123', firstName : params['firstName'] })
+
+    res.send(html)
+
   } catch (e) {
     next(e)
   }
@@ -71,16 +80,22 @@ app.get('/data', function (req, res, next) {
           // send records as a response
           //res.send(recordset);
 
-          var html = template({ title: 'Home' })
+          template = require('jade').compileFile(__dirname + '/source/templates/data.jade')
 
+          var html = template({ title: 'Data', userPosts : recordset })
+
+          /*
           res.writeHead(200, { 'Content-Type': 'text/html' });
           res.write("<html><table>");
           for (var i = 0; i < recordset.length; i++) {
             res.write("<tr><td>" + recordset[i].DisplayName + "</td><td>" + recordset[i].ApplicationID + "</td></tr>" );
           }
+          */
 
-          res.write("</table></html>");
-          res.end("<br />Done.");
+          res.send(html)
+
+          //res.write("</table></html>");
+          //res.end("<br />Done.");
       });
     });
 

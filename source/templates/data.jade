@@ -1,0 +1,12 @@
+extend default
+
+block content
+
+  table
+    thead
+      tr: th Posts
+    tbody
+      each post, i in userPosts
+        tr(class=(i % 2 == 0) ? 'odd' : 'even') 
+          td #{post.DisplayName}
+          td #{post.ApplicationID}
